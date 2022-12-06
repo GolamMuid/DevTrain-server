@@ -29,7 +29,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
   );
 
   // Finding resource
-  query = Bootcamp.find(JSON.parse(queryStr)).populate('courses');
+  query = Bootcamp.find(JSON.parse(queryStr)).populate("courses");
 
   // Select Fields
   if (req.query.select) {
@@ -52,7 +52,6 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
   const endIndex = page * limit;
   const total = await Bootcamp.countDocuments();
 
-
   query = query.skip(startIndex).limit(limit);
 
   //Executing Query
@@ -64,21 +63,23 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
   if (endIndex < total) {
     pagination.next = {
       page: page + 1,
-      limit
-    }
-
+      limit,
+    };
   }
 
   if (startIndex > 0) {
     pagination.prev = {
       page: page - 1,
-      limit
-    }
+      limit,
+    };
   }
 
-  res
-    .status(200)
-    .json({ success: true, count: bootcamps.length, pagination, data: bootcamps });
+  res.status(200).json({
+    success: true,
+    count: bootcamps.length,
+    pagination,
+    data: bootcamps,
+  });
 });
 
 //@desc    get single bootcamp
