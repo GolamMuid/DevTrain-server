@@ -1,6 +1,7 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const colors = require("colors")
 
 // Load ENV variables
 dotenv.config({ path: "./config/config.env" });
@@ -26,7 +27,7 @@ const importData = async () => {
   try {
     await Bootcamp.create(bootcamps);
     await Course.create(courses);
-    console.log("bootcamps imported...");
+    console.log("bootcamps imported...".green.inverse);
     process.exit();
   } catch (err) {
     console.log(err);
@@ -38,7 +39,7 @@ const deleteData = async () => {
   try {
     await Bootcamp.deleteMany();
     await Course.deleteMany();
-    console.log("bootcamps deleted...");
+    console.log("bootcamps deleted...".red.inverse);
     process.exit();
   } catch (err) {
     console.log(err);
