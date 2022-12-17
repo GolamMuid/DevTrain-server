@@ -1,6 +1,7 @@
 const path = require("path");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middlewares/async");
+const sendEmail = require('../utils/sendEmail')
 const User = require("../models/User");
 
 //@desc    Register user
@@ -62,6 +63,67 @@ exports.login = asyncHandler(async (req, res, next) => {
   //   res.status(200).json({ success: true, token });
 });
 
+
+//@desc    Get current Logged in user
+//@route   POST /api/v1/auth/me
+//@access  private
+exports.getMe = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+//@desc    Forgot Password
+//@route   POST /api/v1/auth/forgotpassword
+//@access  public
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  console.log(user);
+  if (!user) {
+    return next(new ErrorResponse("There is no user with that email", 404));
+  }
+
+  // Get Reset Token 
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false })
+
+  // Create reset url
+  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/resetpassword/${resetToken}`;
+
+  const message = `Please make a put requset to: \n\n ${resetUrl}`;
+
+  try {
+    await sendEmail({
+      user: user.email,
+      subject: 'Password reset token',
+      message
+    })
+
+    res.status(200).json({ success: true, data: 'Email Sent' })
+
+  } catch (err) {
+    console.log(err);
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpire = undefined
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorResponse("Email could not be sent", 500));
+  }
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+
+
+
 // Get token form the model, create cooke and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // Create Token
@@ -85,14 +147,3 @@ const sendTokenResponse = (user, statusCode, res) => {
   });
 };
 
-//@desc    Get current Logged in user
-//@route   POST /api/v1/auth/me
-//@access  private
-exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
