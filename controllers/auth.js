@@ -11,7 +11,6 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body;
 
   //Create User
-
   const user = await User.create({
     name,
     email,
@@ -72,6 +71,21 @@ exports.getMe = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: user,
+  });
+});
+
+//@desc    Logout / clear cookie
+//@route   POST /api/v1/auth/logout
+//@access  private
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  })
+
+  res.status(200).json({
+    success: true,
+    data: {},
   });
 });
 
