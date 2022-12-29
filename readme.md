@@ -23,3 +23,9 @@ npm start
 ```
 
 - Version: 1.0.0
+
+## API information link
+
+Chekcout the link to see all the api and their usages
+
+https://devcamper-api-5zwl.onrender.com
