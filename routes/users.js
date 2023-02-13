@@ -6,11 +6,12 @@ const { protect, authorize } = require("../middlewares/auth");
 
 const advancedResults = require("../middlewares/advancedResults");
 const {
-  getUsers,
-  createUser,
-  getUser,
-  deleteUser,
-  updateUser,
+	getUsers,
+	createUser,
+	getUser,
+	deleteUser,
+	updateUser,
+	addBootcamp,
 } = require("../controllers/users");
 const router = express.Router({ mergeParams: true });
 
@@ -22,5 +23,6 @@ router.route("/").post(createUser);
 router.route("/:id").get(getUser);
 router.route("/:id").put(updateUser);
 router.route("/:id").delete(deleteUser);
+router.route("/:id/bootcamps").post(addBootcamp);
 
 module.exports = router;
