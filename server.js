@@ -10,7 +10,6 @@ const hpp = require("hpp");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const errorHandler = require("./middlewares/error");
-const colors = require("colors");
 const cookieParser = require("cookie-parser");
 const fileupload = require("express-fileupload");
 
@@ -81,7 +80,7 @@ app.use(errorHandler);
 const server = app.listen(
   PORT,
   console.log(
-    `Server running in ${process.env.NODE_ENV} on port ${PORT}`.blue.inverse
+    `Server running in ${process.env.NODE_ENV} on port ${PORT}`
   )
 );
 
