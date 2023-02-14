@@ -28,4 +28,4 @@ npm start
 
 Chekcout the link to see all the api and their usages
 
-https://devcamper-api-5zwl.onrender.com
+https://devtrain.cyclic.app/
