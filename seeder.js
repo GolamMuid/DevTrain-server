@@ -1,7 +1,6 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const colors = require("colors");
 
 // Load ENV variables
 dotenv.config({ path: "./config/config.env" });
@@ -39,7 +38,7 @@ const importData = async () => {
     await Course.create(courses);
     await User.create(users);
     await Review.create(reviews);
-    console.log("bootcamps imported...".green.inverse);
+    console.log("bootcamps imported...");
     process.exit();
   } catch (err) {
     console.log(err);
@@ -53,7 +52,7 @@ const deleteData = async () => {
     await Course.deleteMany();
     await User.deleteMany();
     await Review.deleteMany();
-    console.log("bootcamps deleted...".red.inverse);
+    console.log("bootcamps deleted...");
     process.exit();
   } catch (err) {
     console.log(err);
