@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const colors = require("colors");
 
 const CourseSchema = new mongoose.Schema({
   title: {
