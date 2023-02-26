@@ -11,18 +11,16 @@ const {
 	getUser,
 	deleteUser,
 	updateUser,
-	addBootcamp,
 } = require("../controllers/users");
 const router = express.Router({ mergeParams: true });
 
-router.use(protect);
-router.use(authorize("admin"));
+// router.use(protect);
+// router.use(authorize("admin"));
 
 router.route("/").get(advancedResults(User), getUsers);
 router.route("/").post(createUser);
 router.route("/:id").get(getUser);
 router.route("/:id").put(updateUser);
 router.route("/:id").delete(deleteUser);
-router.route("/:id/bootcamps").post(addBootcamp);
 
 module.exports = router;

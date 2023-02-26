@@ -75,13 +75,17 @@ exports.addBootcamp = asyncHandler(async (req, res, next) => {
 		);
 	}
 
+	const { bootcampId } = req.body;
+
+	console.log(req.body);
+
 	// Check if the user is already enrolled in the bootcamp
-	if (user.bootcamps.includes(bootcamp._id)) {
+	if (user.bootcamps.includes(bootcampId)) {
 		return next(
 			new ErrorResponse(`User already enrolled in this bootcamp`, 403)
 		);
 	}
-	user.bootcamps.push(bootcamp._id);
+	user.bootcamps.push(bootcampId);
 	await user.save();
 
 	res.status(200).json({

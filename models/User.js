@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	bootcamps: [
 		{
-			type: mongoose.Schema.Types.ObjectId,
+			type: mongoose.Schema.ObjectId,
 			ref: "Bootcamp",
 		},
 	],
