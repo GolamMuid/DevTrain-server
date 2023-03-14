@@ -83,8 +83,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 //@access  public
 
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
-  let bootcamp = await Bootcamp.findById(req.params.id);
-  bootcamp = bootcamp.populate("courses");
+  const bootcamp = await Bootcamp.findById(req.params.id).populate("courses");
   if (!bootcamp) {
     return next(
       new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
