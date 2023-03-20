@@ -3,6 +3,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const Bootcamp = require("../models/Bootcamp");
 const asyncHandler = require("../middlewares/async");
 const geocoder = require("../utils/geocoder");
+const slugify = require("slugify");
 
 //@desc    get all bootcamps
 //@route   GET /api/v1/bootcamps
@@ -145,7 +146,12 @@ exports.editBootcamp = asyncHandler(async (req, res, next) => {
     );
   }
 
-  bootcamp = await Bootcamp.findOneAndUpdate(req.params.id, req.body, {
+  // update slug while updating name
+  if (Object.keys(req.body).includes("name")) {
+    req.body.slug = slugify(req.body.name, { lower: true });
+  }
+
+  bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
@@ -236,6 +242,8 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
   }
 
   const file = req.files.file;
+
+  console.log(file);
 
   // Make sure the image is a photo
   if (!file.mimetype.startsWith("image")) {
