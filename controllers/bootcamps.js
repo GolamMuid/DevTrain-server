@@ -259,6 +259,7 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
   }
 
   //Create custom filename
+  const url = req.protocol + "://" + req.get("host");
   file.name = `photo_${bootcamp._id}${path.parse(file.name).ext}`;
 
   file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
@@ -267,7 +268,9 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
       return new ErrorResponse(`Problem with file upload`, 500);
     }
 
-    await Bootcamp.findByIdAndUpdate(req.params.id, { photo: file.name });
+    const imageName = `${url}/uploads/${file.name}`;
+
+    await Bootcamp.findByIdAndUpdate(req.params.id, { photo: imageName });
 
     res.status(200).json({
       success: true,
