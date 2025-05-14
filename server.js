@@ -25,7 +25,7 @@ const auth = require("./routes/auth");
 const users = require("./routes/users");
 const reviews = require("./routes/reviews");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7000;
 
 const app = express();
 
@@ -79,9 +79,7 @@ app.use(errorHandler);
 
 const server = app.listen(
   PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} on port ${PORT}`
-  )
+  console.log(`Server running in ${process.env.NODE_ENV} on port ${PORT}`)
 );
 
 // Handle unhandled promise rejection
